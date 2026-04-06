@@ -6,13 +6,13 @@
 #main-title()[Resolution System]
 #stylised-toc()
 
-= Resolution System
+= Introduction
 
 The system uses a 2-die roll-over mechanic based on Abilities. Each character has 6 abilities (see below).
 
 Characters also have Push Points (the game's metacurrency. The actual name depends on the rest of the system this gets latched on to), which allows them to push themselves beyond their normal limits.
 
-== Main roll
+= Main roll
 
 The base roll is simple:
 - Roll two dice of the indicated size
@@ -22,11 +22,11 @@ The base roll is simple:
   - If one succeeds, it's a mixed success: you get what you want, but you suffer some consequence (meaning that both the success and failure effects take place)
 - If the two dice have _the same value_, then it's a _strong_ result: whichever effect occurs, it's going to be amplified
 
-== Risk roll
+= Risk roll
 
 Sometimes a PC might want to not care about contingencies and go straight for the metaphorical kill, even at their own risk. This is the _risk roll._ Roll 1 die (subject to advantage), and treat it as if it were a pair of dice for the purposes of the main roll's degrees of success: any result is automatically a _strong_ result, and there's no mixed success.
 
-== Ability dice
+= Ability dice
 
 Ability scores are tracked by increasing die size. The starting point for all abilities is d6.
 
@@ -76,3 +76,13 @@ Favorable circumstances may grant *advantages* or *disadvantages.*
 ]
 
 As with the main touchstone of this system—Gumshoe—characters are presumed to be _competent._ No rolls are needed for activities that any denizen of the Game's World would be able to do. Additionally, as ability levels increase, this minimum baseline for success also rises.
+
+= Example Core Skill list
+
+Any RPG generally will need skills to handle social encounters and basic interactions with the world.
+
+The only skills that I believe are *needed* to cover the bases are *Strength*, *Dexterity* and *Perception*. They are the core of what a character needs to tell the resolution system in order for it to work.
+
+Beyond those, I believe strong arguments can be made for *Charisma*, *Intelligence*, *Luck*, and *Endurance*. I personally use them, however it can be argued that Charisma and Intelligence should be left to the players, Endurance can be folded into strength, and Luck can be left to the dice. It's your choice!
+
+Naturally, all names can be changed to better fit the vibe of the setting. For example, I renamed Charisma to "Gift of the Gab" in the Western Example Setting.
