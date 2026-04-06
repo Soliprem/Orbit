@@ -2,7 +2,8 @@
 Gumslingers was a simple Western TTRPG system. Now it's Orbit: a generic, modular system. The current components are:
 - the resolution system (under `resolution`)
 - the magic system (under `magic`)
-- the western system (under `western-system`)
+- the wound system (under `wounds`)
+- the western example system (under `western-system`)
 
 # Why Orbit
 Orbit needs tailoring. That means it takes a little bit of effort. It also means that there's no excess cloth. Unlike other generic systems like GURPS (which I adore, to be clear, no shade), the tailoring aims to still be founded on minimalism. This should result in a fast building experience for the GM, and a simple, but expressive system for the players.
