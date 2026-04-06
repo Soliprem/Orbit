@@ -70,7 +70,7 @@ Generally, Difficulty Classes are:
 Favorable circumstances may grant *advantages* or *disadvantages.*
 
 #rule-box(title: [Advantages and Disadvantages])[
-  Advantage: Add a die of identical size to the one being rolled—after any pushes. Take the two highest results. _An advantage can be converted to +1 up to d8, +2 up to d12, and +4 for d20_
+  Advantage: Add a die of identical size to the one being rolled—after any pushes. Take the two highest results. _An advantage can be converted to the equivalent benefits of Pushing Once up to a d8, Twice up to d12, 4 Times for d20_
 
   Disadvantage: Add a die of identical size to the one being rolled—after any pushes. Take the two lowest results.
 ]
