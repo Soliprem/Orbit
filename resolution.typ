@@ -75,7 +75,7 @@ Favorable circumstances may grant *advantages* or *disadvantages.*
   Disadvantage: Add a die of identical size to the one being rolled—after any pushes. Take the two lowest results.
 ]
 
-As with the main touchstone of this system—Gumshoe—characters are presumed to be _competent._ No rolls are needed for activities that any denizen of the Game's World would be able to do. Additionally, as ability levels increase, this minimum baseline for success also rises.
+As with Gumshoe#footnote[one of the touchstones of this system, with Ironsworn, YZE and DH], characters are presumed to be _competent._ No rolls are needed for activities that any denizen of the Game's World would be able to do. Additionally, as ability levels increase, this minimum baseline for success also rises.
 
 = Example Core Skill list
 
