@@ -34,4 +34,4 @@ Well, a damage / hp system can be more or less lethal. It can rely on hp or woun
 
 === Mechanically, how do I tailor Orbit
 
-The system is written in typst. You can pretty much just concatenate the contents of the files (ie: copy paste the texts) and it all should pretty much work, to be honest. I'll work to try to make it as seamless as possible. Contributions are welcome. Or you can just take the pdfs of different submodules and use those separately.
+The system is written in typst. You can pretty much just concatenate the contents of the files (ie: copy paste the texts) and it all should pretty much work, to be honest. I'll work to try to make it as seamless as possible. Contributions are welcome. Or you can just take the pdfs of different submodules and use those separately. There's also the `main` file in the repo. That pretty much just squashes the module files together. Good starting point.
