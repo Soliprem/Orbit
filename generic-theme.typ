@@ -7,6 +7,24 @@
   accent-mid: rgb("#1a4a7a"),
 ))
 
+#let stylised-toc-state = state("stylised-toc", (
+  enabled: true,
+))
+
+#let set-stylised-toc-enabled(enabled) = stylised-toc-state.update(_ => (
+  enabled: enabled,
+))
+
+#let main-title-outline-state = state("main-title-outline", (
+  enabled: false,
+  level: 1,
+))
+
+#let set-main-title-outline(enabled, level: 1) = main-title-outline-state.update(_ => (
+  enabled: enabled,
+  level: level,
+))
+
 #let stylised-theme(
   title: "Document",
   paper: "us-letter",
@@ -259,18 +277,25 @@
   rule-width: 3pt,
   alignment: center,
   body,
-) = [
-  #set text(size: size, weight: "bold", font: heading-font, fill: accent-dark)
-  #align(alignment)[
-    #block(
-      width: 100%,
-      inset: (y: 0.5em),
-      stroke: (bottom: rule-width + accent-color),
-      [#body]
-    )
+) = context {
+  let outline = main-title-outline-state.get()
+  if outline.enabled {
+    place(hide(heading(level: outline.level)[#body]))
+  }
+
+  [
+    #set text(size: size, weight: "bold", font: heading-font, fill: accent-dark)
+    #align(alignment)[
+      #block(
+        width: 100%,
+        inset: (y: 0.5em),
+        stroke: (bottom: rule-width + accent-color),
+        [#body]
+      )
+    ]
+    #v(0.3em)
   ]
-  #v(0.3em)
-]
+}
 
 #let stylised-toc(
   title: "Table of Contents",
@@ -278,28 +303,31 @@
   accent-color: rgb("#1a4a7a"),
   accent-dark: rgb("#0d2a4a"),
   bg-color: white,
-) = {
-  block(
-    width: 100%,
-    inset: (y: 0.8em),
-    stroke: (bottom: 3pt + accent-color, top: 3pt + accent-color),
-    fill: accent-color.transparentize(80%),
-  )[
-    #set text(size: 20pt, weight: "bold", fill: accent-dark, font: heading-font)
-    #align(center)[#title]
-  ]
+  depth: 3,
+) = context {
+  if stylised-toc-state.get().enabled {
+    block(
+      width: 100%,
+      inset: (y: 0.8em),
+      stroke: (bottom: 3pt + accent-color, top: 3pt + accent-color),
+      fill: accent-color.transparentize(80%),
+    )[
+      #set text(size: 20pt, weight: "bold", fill: accent-dark, font: heading-font)
+      #align(center)[#title]
+    ]
 
-  v(0.8em)
+    v(0.8em)
 
-  block(
-    width: 100%,
-    inset: 20pt,
-    radius: 6pt,
-    fill: accent-color.transparentize(90%),
-    stroke: 2pt + accent-color.transparentize(30%),
-  )[
-    #outline(depth: 3, indent: auto)
-  ]
+    block(
+      width: 100%,
+      inset: 20pt,
+      radius: 6pt,
+      fill: accent-color.transparentize(90%),
+      stroke: 2pt + accent-color.transparentize(30%),
+    )[
+      #outline(title: none, depth: depth, indent: auto)
+    ]
 
-  pagebreak()
+    pagebreak()
+  }
 }
