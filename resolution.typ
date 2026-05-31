@@ -44,7 +44,7 @@ Ability scores are tracked by increasing die size. The starting point for all ab
 
   If a die is going to be pushed beyond d12, choose one:
   - spend one point and gain a Push die
-  - spend 3 points at once to replace the d12 with a d20. Further pushes beyond d20 create a Push die.
+  - spend 2 points at once to replace the d12 with a d20. Further pushes beyond d20 create a Push die.
 
   *Push dice* are rolled alongside the main roll, and their result is added to the result of both dice in the main roll. Each die may be separately subject to advantage. A Push die starts at size d4. Extra Push Points can be used to increase its size, using the progression outlined above.
 ]
