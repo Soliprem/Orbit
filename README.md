@@ -3,6 +3,8 @@ Gumslingers was a simple Western TTRPG system. Now it's Orbit: a generic, modula
 - the resolution system (under `resolution`)
 - the magic system (under `magic`)
 - the wound system (under `wounds`)
+- the initiative system (under `initiative`)
+- the resting subsystem (under `resting`)
 - the western example system (under `western-system`)
 
 # Why Orbit

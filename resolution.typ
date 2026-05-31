@@ -38,14 +38,18 @@ Ability scores are tracked by increasing die size. The starting point for all ab
 ]
 
 #rule-box(title: [Push Points and Pushes])[
-  Each character has a pool of Push Points. These can be used to _push oneself_, making for the character behave, *for a moment* (a single roll, a single action), as if they were better at the skill. This means, most notably, increasing the die size by one step following the usual progression:
+  Each character has a pool of Push Points. A Push Point can be used to _push oneself_, letting the character behave, *for a moment* (a single roll, a single action), as if they were better at the skill. This means, most notably, increasing the die size by one step following the usual progression:
 
   _$ "d4" -> "d6" -> "d8" -> "d10" -> "d12" $_
 
-  Beyond d12, each Push Point becomes a +1. Starting from a d12 (even if pushed), 4 points can be spent to roll a d20 with no modifiers. Beyond those 4 points, you add a +1 modifier to the d20 for each additional Push Point spent.
+  If a die is going to be pushed beyond d12, choose one:
+  - spend one point and gain a Push die
+  - spend 3 points at once to replace the d12 with a d20. Further pushes beyond d20 create a Push die.
+
+  *Push dice* are rolled alongside the main roll, and their result is added to the result of both dice in the main roll. Each die may be separately subject to advantage. A Push die starts at size d4. Extra Push Points can be used to increase its size, using the progression outlined above.
 ]
 
-You can double the effect of a push (with GM consent) by introducing a complication. Instead of a complication, the World can tally a due.
+You can double the effect of a push#footnote[making $N$ paid points behave as $2N$. (e.g. $1->2, 2->4$)] (with GM consent) by introducing a complication. Instead of a complication, the World can tally a due.
 
 The World (personified in the GM) can keep a tally of the PC's dues. A sort of symbol of the unfair luck they might have had, or of the favours fate handed them. Fate, however, doesn't do gifts, and luck turns around.
 
@@ -60,19 +64,21 @@ Generally, Difficulty Classes are:
 #table(
   columns: (1fr, auto, 2fr),
   [*Difficulty*], [*DC*], [*When to Use*],
-  [Easy], [3+], [Simple tasks],
-  [Simple], [5+], [Routine *challenges* for competent folk],
-  [Moderate], [7+], [Significant obstacles],
-  [Hard], [9+], [Expert-level tasks],
-  [Legendary], [11+], [Heroic feats],
+  [Easy], [2+], [Simple tasks],
+  [Pretty Hard], [4+], [Routine *challenges* for competent folk],
+  [Oompfy], [6+], [Significant obstacles],
+  [Increadibly Hard], [8+], [Expert-level tasks],
+  [Legendary], [10+], [Heroic feats],
 )
 
 Favorable circumstances may grant *advantages* or *disadvantages.*
 
 #rule-box(title: [Advantages and Disadvantages])[
-  Advantage: Add a die of identical size to the one being rolled—after any pushes. Take the two highest results. _An advantage can be converted to the equivalent benefits of Pushing Once up to a d8, Twice up to d12, 4 Times for d20_
+  Advantages and disadvantages can stack, or cancel each other out#footnote[more advantages or disadvantages stack together, advantages and disadvantages cancel each other out]. The final number of kept rolls is the same number of dice as the original unmodified roll. Advantage / Disadvantage applies to any additional dice (like push dice) at the GM's discretion.
 
-  Disadvantage: Add a die of identical size to the one being rolled—after any pushes. Take the two lowest results.
+  Advantage: Add a die of identical size to the one being rolled, after any pushes. Take the highest results. _You can convert advantage into one push up to (and including) d8, two pushes up to d12, or three pushes after reaching d20._
+
+  Disadvantage: Add a die of identical size to the one being rolled, after any pushes. Take the lowest results.
 ]
 
 As with Gumshoe#footnote[one of the touchstones of this system, with Ironsworn, YZE and DH], characters are presumed to be _competent._ No rolls are needed for activities that any denizen of the Game's World would be able to do. Additionally, as ability levels increase, this minimum baseline for success also rises.
