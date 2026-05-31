@@ -27,3 +27,6 @@
 #pagebreak()
 
 #include "./magic.typ"
+#pagebreak()
+
+#include "./character-creation.typ"
