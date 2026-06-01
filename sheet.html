@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Sheet</title>
+    <style>
+        :root {
+            /* Base Accent HSL (Defaults to Original Navy) */
+            --accent-h: 211;
+            --accent-s: 74%;
+            --accent-l: 21%;
+
+            /* Dynamically Derived Colors from Selected Accent */
+            --primary-blue: hsl(var(--accent-h), var(--accent-s), var(--accent-l));
+            --line-blue: hsl(var(--accent-h), calc(var(--accent-s) - 35%), calc(var(--accent-l) + 50%));
+            --focus-bg: hsla(var(--accent-h), var(--accent-s), var(--accent-l), 0.08);
+            --push-bg: hsl(var(--accent-h), calc(var(--accent-s) - 45%), 97%);
+            
+            --text-color: #1a1a1a;
+            --delete-red: #ba3c3c;
+            --action-green: #2a6f44;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #111;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Top Action Bar for Utilities */
+        .utility-bar {
+            width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        /* Theme Selector Container */
+        .theme-select-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .theme-select-container label {
+            font-family: 'Georgia', serif;
+            font-size: 14px;
+            color: #aaa;
+            font-weight: normal;
+        }
+
+        #theme-select {
+            background-color: #222;
+            border: 1px solid #444;
+            color: #ccc;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-size: 13px;
+            width: auto;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        #theme-select:hover {
+            color: white;
+            background-color: #333;
+            border-color: #555;
+        }
+
+        .utility-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .util-btn {
+            background-color: #222;
+            border: 1px solid #444;
+            color: #ccc;
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-size: 13px;
+            transition: all 0.2s ease;
+        }
+
+        .util-btn:hover {
+            color: white;
+            background-color: #333;
+        }
+
+        .util-btn.print-btn {
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .util-btn.print-btn:hover {
+            filter: brightness(1.2);
+        }
+
+        .util-btn.reset-btn:hover {
+            background-color: var(--delete-red);
+            border-color: var(--delete-red);
+            color: white;
+        }
+
+        /* Sheet Container */
+        .sheet-container {
+            background-color: #ffffff;
+            width: 800px;
+            min-height: 1000px;
+            padding: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.3s ease;
+        }
+
+        /* Form Controls Baseline */
+        input[type="text"], textarea, select {
+            border: none;
+            background: transparent;
+            font-family: 'Georgia', serif;
+            font-size: 16px;
+            color: var(--text-color);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        input[type="text"]:focus, textarea:focus, select:focus {
+            outline: none;
+            background-color: var(--focus-bg);
+        }
+
+        select {
+            cursor: pointer;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            padding-bottom: 2px;
+            width: auto;
+            text-align: right;
+        }
+
+        label {
+            color: var(--primary-blue);
+            font-weight: bold;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid var(--line-blue);
+            margin: 15px 0;
+            transition: border-color 0.3s ease;
+        }
+
+        /* Top Header Row */
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .header-item {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .header-item:last-child {
+            margin-right: 0;
+        }
+
+        .header-item input {
+            border-bottom: 1px solid var(--line-blue);
+            padding-top: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        #budget {
+            font-weight: bold;
+            color: var(--primary-blue);
+            transition: color 0.3s ease;
+        }
+
+        /* Archetype & Push Points Row */
+        .archetype-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .archetype-box {
+            display: flex;
+            align-items: center;
+            flex: 2;
+        }
+
+        .archetype-box input {
+            border-bottom: 1px solid var(--line-blue);
+            margin-left: 10px;
+            transition: border-color 0.3s ease;
+        }
+
+        .push-points-box {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex: 1;
+        }
+
+        .push-points-box label {
+            margin-right: 15px;
+        }
+
+        .push-box-input {
+            width: 80px;
+            height: 35px;
+            border: 1.5px solid var(--line-blue) !important;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 18px !important;
+            font-weight: bold;
+            color: var(--primary-blue) !important;
+            background-color: var(--push-bg) !important;
+            transition: all 0.3s ease;
+        }
+
+        /* Grid Section (Abilities & Conditions) */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            margin-top: 10px;
+            margin-bottom: 30px;
+        }
+
+        .grid-divider {
+            width: 1px;
+            background-color: var(--line-blue);
+            margin: 0 25px;
+            transition: background-color 0.3s ease;
+        }
+
+        .section-header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .section-title {
+            color: var(--primary-blue);
+            font-size: 22px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .add-btn {
+            background: none;
+            border: 1px solid var(--line-blue);
+            color: var(--primary-blue);
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-family: 'Georgia', serif;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .add-btn:hover {
+            background-color: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+
+        .section-title-under {
+            border-top: 2px solid var(--line-blue);
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+        }
+
+        /* Dynamic Row Shared Styles */
+        .dynamic-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between; /* Pushes content to exact opposing bounds */
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        /* Transparent hover bridge keeping the delete button active when moving mouse left */
+        .dynamic-row::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: -25px;
+            width: 30px;
+            background: transparent;
+            z-index: 1;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: var(--delete-red);
+            font-size: 14px;
+            cursor: pointer;
+            padding: 0 5px 2px 0;
+            position: absolute;
+            left: -22px; /* Hangs button cleanly outside the text boundary alignment */
+            bottom: 2px;
+            display: none;
+            font-weight: bold;
+            z-index: 2; /* Ensures the button registers clicks on top of the bridge */
+        }
+
+        .dynamic-row:hover .delete-btn {
+            display: inline-block;
+        }
+
+        .editable-label {
+            border-bottom: 1px dashed transparent !important;
+            font-weight: normal;
+            padding-bottom: 2px;
+            width: 50%; /* Allows generous space for editing text names */
+        }
+
+        .editable-label:hover, .editable-label:focus {
+            border-bottom: 1px dashed var(--line-blue) !important;
+        }
+
+        /* Abilities Layout Update */
+        .ability-row {
+            border-bottom: 1px solid var(--line-blue);
+            transition: border-color 0.3s ease;
+        }
+
+        .ability-select {
+            padding-bottom: 2px;
+        }
+
+        /* Conditions Layout Update */
+        .condition-row {
+            align-items: center;
+            width: 100%;
+            border-bottom: 1px solid var(--line-blue);
+            transition: border-color 0.3s ease;
+        }
+
+        .condition-left-block {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        .condition-row input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border: 1.5px solid var(--primary-blue);
+            border-radius: 2px;
+            margin-right: 10px;
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            transition: border-color 0.3s ease;
+        }
+
+        .condition-row input[type="checkbox"]:checked {
+            background-color: var(--primary-blue);
+        }
+
+        .condition-row input[type="checkbox"]:checked::after {
+            content: '✓';
+            color: white;
+            font-size: 11px;
+            position: absolute;
+            top: -2px;
+            left: 2px;
+        }
+
+        .condition-input {
+            text-align: right;
+            padding-bottom: 2px;
+            width: 40%; /* Anchors custom condition values flush right */
+        }
+
+        /* Notes & Equipment Sections */
+        .full-width-section {
+            margin-bottom: 40px;
+        }
+
+        .notes-textarea {
+            width: 100%;
+            height: 120px;
+            resize: none;
+            line-height: 28px;
+            background-image: linear-gradient(transparent 27px, var(--line-blue) 27px);
+            background-size: 100% 28px;
+            border: none;
+            transition: background-image 0.3s ease;
+        }
+
+        /* Equipment Split Column */
+        .equipment-columns {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            margin-top: 15px;
+        }
+
+        .equipment-textarea {
+            width: 100%;
+            height: 300px;
+            resize: none;
+            line-height: 28px;
+            background-image: linear-gradient(transparent 27px, var(--line-blue) 27px);
+            background-size: 100% 28px;
+            border: none;
+            transition: background-image 0.3s ease;
+        }
+
+        /* Optimized Clean Print View Overrides */
+        @media print {
+            @page {
+                size: auto;
+                margin: 0mm;
+            }
+            body { 
+                background-color: #fff; 
+                padding: 0; 
+                margin: 0;
+            }
+            .utility-bar, .delete-btn, .add-btn { 
+                display: none !important; 
+            }
+            .sheet-container { 
+                box-shadow: none; 
+                padding: 30px; 
+                width: 100%; 
+                min-height: auto;
+                height: 1002px;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="utility-bar">
+    <!-- Dropdown to select color palette -->
+    <div class="theme-select-container">
+        <label for="theme-select">Accent Color:</label>
+        <select id="theme-select">
+            <option value="211,74%,21%">Navy Blue</option>
+            <option value="150,56%,20%">Green</option>
+            <option value="355,65%,29%">Red</option>
+            <option value="275,55%,25%">Purple</option>
+            <option value="33,68%,25%">Brown</option>
+            <option value="195,70%,22%">Teal</option>
+            <option value="0,0%,25%">Gray</option>
+        </select>
+    </div>
+
+    <div class="utility-actions">
+        <button type="button" class="util-btn reset-btn" onclick="resetForm()">Reset Sheet</button>
+        <button type="button" class="util-btn print-btn" onclick="window.print()">Print / Save PDF</button>
+    </div>
+</div>
+
+<div class="sheet-container">
+    
+    <div class="header-row">
+        <div class="header-item">
+            <label for="char-name">Character Name:</label>
+            <input type="text" id="char-name">
+        </div>
+        <div class="header-item">
+            <label for="gender">Gender:</label>
+            <input type="text" id="gender">
+        </div>
+        <div class="header-item">
+            <label for="budget">Budget:</label>
+            <input type="text" id="budget" value="0" placeholder="0">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="archetype-row">
+        <div class="archetype-box">
+            <label for="archetype">Archetype:</label>
+            <input type="text" id="archetype">
+        </div>
+        <div class="push-points-box">
+            <label for="push-points">Push Points</label>
+            <input type="text" id="push-points" class="push-box-input" readonly value="0">
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="main-grid">
+        
+        <div>
+            <div class="section-header-container">
+                <div class="section-title">Abilities</div>
+                <button type="button" class="add-btn" onclick="addAbilityRow()">+ Add</button>
+            </div>
+            <div class="section-title-under"></div>
+            <div id="abilities-container"></div>
+        </div>
+
+        <div class="grid-divider"></div>
+
+        <div>
+            <div class="section-header-container">
+                <div class="section-title">Conditions</div>
+                <button type="button" class="add-btn" onclick="addConditionRow()">+ Add</button>
+            </div>
+            <div class="section-title-under"></div>
+            <div id="conditions-container"></div>
+        </div>
+    </div>
+
+    <div class="full-width-section">
+        <div class="section-title">Notes</div>
+        <div class="section-title-under"></div>
+        <textarea class="notes-textarea"></textarea>
+    </div>
+
+    <div class="full-width-section" style="flex-grow: 1;">
+        <div class="section-title">Equipment</div>
+        <div class="section-title-under"></div>
+        
+        <div class="equipment-columns">
+            <textarea class="equipment-textarea"></textarea>
+            <div class="grid-divider"></div>
+            <textarea class="equipment-textarea"></textarea>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    const baseAbilities = ["Strength", "Dexterity", "Perception", "Charisma", "Intelligence", "Endurance"];
+    const baseConditions = ["Unharmed", "Impaired", "Wounded", "Dying", "Out"];
+
+    const abilitiesContainer = document.getElementById('abilities-container');
+    const conditionsContainer = document.getElementById('conditions-container');
+    const budgetInput = document.getElementById('budget');
+    const pushPointsInput = document.getElementById('push-points');
+    const themeSelect = document.getElementById('theme-select');
+
+    // Accent Color Palette Engine
+    function applyTheme(hslString) {
+        const [h, s, l] = hslString.split(',');
+        document.documentElement.style.setProperty('--accent-h', h);
+        document.documentElement.style.setProperty('--accent-s', s);
+        document.documentElement.style.setProperty('--accent-l', l);
+        localStorage.setItem('sheet-accent-theme', hslString);
+    }
+
+    themeSelect.addEventListener('change', (e) => {
+        applyTheme(e.target.value);
+    });
+
+    function calculatePushPoints() {
+        let budget = parseInt(budgetInput.value) || 0;
+        let totalCost = 0;
+        
+        const selectElements = document.querySelectorAll('.ability-select');
+        selectElements.forEach(select => {
+            totalCost += parseInt(select.value);
+        });
+
+        pushPointsInput.value = budget - totalCost;
+    }
+
+    function addAbilityRow(name = "New Ability") {
+        const row = document.createElement('div');
+        row.className = 'dynamic-row ability-row';
+        row.innerHTML = `
+            <button class="delete-btn" title="Delete" onclick="removeRow(this)">✕</button>
+            <input type="text" class="editable-label" value="${name}">
+            <select class="ability-select">
+                <option value="-1">d4 (+1 Pt)</option>
+                <option value="0" selected>d6 (Base)</option>
+                <option value="1">d8 (-1 Pt)</option>
+                <option value="3">d10 (-3 Pts)</option>
+                <option value="6">d12 (-6 Pts)</option>
+            </select>
+        `;
+        
+        row.querySelector('.ability-select').addEventListener('change', calculatePushPoints);
+        abilitiesContainer.appendChild(row);
+        calculatePushPoints();
+    }
+
+    function addConditionRow(name = "Condition") {
+        const row = document.createElement('div');
+        row.className = 'dynamic-row condition-row';
+        const randomId = 'cond-' + Math.random().toString(36).substr(2, 5);
+        
+        row.innerHTML = `
+            <button class="delete-btn" title="Delete" onclick="removeRow(this, false)">✕</button>
+            <div class="condition-left-block">
+                <input type="checkbox" id="${randomId}">
+                <input type="text" class="editable-label" value="${name}">
+            </div>
+            <input type="text" class="condition-input" placeholder="">
+        `;
+        conditionsContainer.appendChild(row);
+    }
+
+    function removeRow(btn, triggerCalculation = true) {
+        btn.parentElement.remove();
+        if (triggerCalculation) calculatePushPoints();
+    }
+
+    function resetForm() {
+        if (confirm("Are you sure you want to reset the character sheet? This will wipe all current entries.")) {
+            abilitiesContainer.innerHTML = "";
+            conditionsContainer.innerHTML = "";
+            
+            const basicInputs = document.querySelectorAll('.sheet-container input[type="text"]:not([readonly]), .sheet-container textarea');
+            basicInputs.forEach(input => input.value = "");
+            
+            budgetInput.value = "0";
+            baseAbilities.forEach(ability => addAbilityRow(ability));
+            baseConditions.forEach(condition => addConditionRow(condition));
+            
+            calculatePushPoints();
+        }
+    }
+
+    // App Initialize Setup
+    budgetInput.addEventListener('input', calculatePushPoints);
+    baseAbilities.forEach(ability => addAbilityRow(ability));
+    baseConditions.forEach(condition => addConditionRow(condition));
+
+    // Restore saved accent color preference if exists
+    const savedTheme = localStorage.getItem('sheet-accent-theme');
+    if (savedTheme) {
+        themeSelect.value = savedTheme;
+        applyTheme(savedTheme);
+    }
+</script>
+
+</body>
+</html>
